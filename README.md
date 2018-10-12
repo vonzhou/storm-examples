@@ -9,3 +9,7 @@
 ## WordCountRedisTopology
 
 Use storm-redis to store word count result in redis.
+
+## WordCountKafkaRedisTopology
+
+Use KafkaSpot(storm-kafka) to produce records.
