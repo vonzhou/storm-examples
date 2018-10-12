@@ -30,4 +30,9 @@ public class PropertiesUtils {
         }
         return value != null ? value.trim() : StringUtils.EMPTY;
     }
+
+    public static String getKafkaProp(String key) {
+        String fileName = "kafka.properties";
+        return getPropertyValue(fileName, key);
+    }
 }
