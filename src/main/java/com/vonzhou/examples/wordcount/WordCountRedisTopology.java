@@ -17,9 +17,11 @@
  */
 package com.vonzhou.examples.wordcount;
 
+import com.vonzhou.examples.common.PropertiesUtils;
 import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
 import org.apache.storm.StormSubmitter;
+import org.apache.storm.redis.common.config.JedisPoolConfig;
 import org.apache.storm.topology.TopologyBuilder;
 import org.apache.storm.tuple.Fields;
 import org.slf4j.Logger;
@@ -28,14 +30,20 @@ import org.slf4j.LoggerFactory;
 /**
  * @author vonzhou
  */
-public class WordCountTopology {
-    private static final Logger LOG = LoggerFactory.getLogger(WordCountTopology.class);
+public class WordCountRedisTopology {
+    private static final Logger LOG = LoggerFactory.getLogger(WordCountRedisTopology.class);
 
     public static void main(String[] args) throws Exception {
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig.Builder()
+                .setHost(PropertiesUtils.getRedisProp("redis.host"))
+                .setPort(Integer.parseInt(PropertiesUtils.getRedisProp("redis.port")))
+                .setTimeout(Integer.parseInt(PropertiesUtils.getRedisProp("redis.timeout"))).build();
+
+
         TopologyBuilder builder = new TopologyBuilder();
         builder.setSpout("spout", new RandomSentenceSpout(), 5);
         builder.setBolt("split", new SplitSentenceBolt(), 8).shuffleGrouping("spout");
-        builder.setBolt("count", new WordCountBolt(), 12).fieldsGrouping("split", new Fields("word"));
+        builder.setBolt("count", new WordCountRedisBolt(jedisPoolConfig), 12).fieldsGrouping("split", new Fields("word"));
 
         Config conf = new Config();
         conf.setDebug(true);
