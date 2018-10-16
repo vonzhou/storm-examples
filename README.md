@@ -1,10 +1,12 @@
 # Storm Examples
 
+## ExclamationTopology
+
+Add exclamation(!) to words.
 
 ## WordCountTopology
 
-入门，分别LocalCluster和提交到Cluster运行看日志输出。
-
+Get started with storm , submit topology and see output logs.
 
 ## WordCountRedisTopology
 

@@ -208,8 +208,8 @@
                 </exclusion>
             </exclusions>
             <!--strom 核心包由storm提供, 打包不包含在目标包中, 本地运行的时候修改为 compile-->
-            <!--<scope>compile</scope>-->
-            <scope>provided</scope>
+            <scope>compile</scope>
+            <!--<scope>provided</scope>-->
         </dependency>
 
         <dependency>
